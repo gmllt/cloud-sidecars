@@ -2,3 +2,4 @@ config.yml
 vendor/
 cli/cli
 out/
+/dist

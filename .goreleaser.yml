@@ -1,0 +1,41 @@
+project_name: cloud-sidecars
+
+builds:
+  - id: cloud-sidecars
+    binary: cloud-sidecars
+    dir:  ./cli
+    env:
+      - CGO_ENABLED=0
+    ldflags:
+      - -s
+      - -w
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+
+archives:
+  - id: archives
+    builds:
+      - cloud-sidecars
+    format: "tar.gz"
+    name_template: '{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}'
+    wrap_in_directory: false
+  - id: binaries
+    builds:
+      - cloud-sidecars
+    format: "binary"
+    name_template: '{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}'
+
+checksum:
+  name_template: sha256.txt
+  algorithm: sha256
+
+release:
+  github:
+    owner: gmllt
+    name: cloud-sidecars
+  prerelease: auto
+  name_template: '{{ .Tag }}'
